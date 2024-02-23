@@ -1,7 +1,10 @@
-import { Menu, app, dialog, nativeImage } from "electron";
+import { Menu, app, nativeImage } from "electron";
+import { autoLaunch } from ".";
 import { iconPath, mainWindow } from "../main";
 
-export function buildTrayMenu() {
+export async function buildTrayMenu() {
+  const startOnBoot = await autoLaunch.isEnabled();
+
   return Menu.buildFromTemplate([
     {
       label: "Open Quack GPT",
@@ -11,21 +14,13 @@ export function buildTrayMenu() {
       },
     },
     {
-      label: "Settings",
-      type: "normal",
-      click: async () => {
-        const result = await dialog.showMessageBox({
-          message: "clicked",
-          type: "info",
-          buttons: ["Ok", "Cancel"],
-        });
-
-        console.log(result);
+      label: "Start on boot",
+      type: "checkbox",
+      checked: startOnBoot,
+      click: (ev) => {
+        if (ev.checked) autoLaunch.enable();
+        else autoLaunch.disable();
       },
-    },
-    {
-      label: "Help",
-      type: "normal",
     },
     {
       type: "separator",

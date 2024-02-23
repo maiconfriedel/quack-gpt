@@ -54,13 +54,13 @@ function createWindow() {
   );
 }
 
-function createTray() {
+async function createTray() {
   tray = new Tray(iconPath);
   tray.setToolTip("Quack GPT is running! 🦆");
   tray.on("click", () => {
     mainWindow.show();
   });
-  tray.setContextMenu(buildTrayMenu());
+  tray.setContextMenu(await buildTrayMenu());
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -88,10 +88,10 @@ if (!gotTheLock) {
     }
   });
 
-  app.whenReady().then(() => {
+  app.whenReady().then(async () => {
     ipcMain.on("handle-submit", (ev, data) => handleSubmit(ev, data));
     createWindow();
-    createTray();
+    await createTray();
     registerShortcut();
     if (app.isPackaged) {
       autoLaunch.isEnabled().then((isEnabled) => {
