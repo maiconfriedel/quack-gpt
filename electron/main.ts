@@ -6,6 +6,7 @@ import {
   handleSubmit,
   registerShortcut,
 } from "./functions";
+import { autoLaunch } from "./functions/auto-launch";
 
 process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = app.isPackaged
@@ -77,4 +78,9 @@ app.whenReady().then(() => {
   ipcMain.on("handle-submit", (ev, data) => handleSubmit(ev, data, win));
   createWindow();
   registerShortcut(win);
+  if (app.isPackaged) {
+    autoLaunch.isEnabled().then((isEnabled) => {
+      if (!isEnabled) autoLaunch.enable();
+    });
+  }
 });
