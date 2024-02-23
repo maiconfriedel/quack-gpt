@@ -15,6 +15,8 @@ process.env.VITE_PUBLIC = app.isPackaged
 
 export const iconPath = path.join(process.env.VITE_PUBLIC, "icon.png");
 
+const gotTheLock = app.requestSingleInstanceLock();
+
 export let mainWindow: BrowserWindow;
 let tray: Tray;
 
@@ -74,14 +76,25 @@ app.on("activate", () => {
   }
 });
 
-app.whenReady().then(() => {
-  ipcMain.on("handle-submit", (ev, data) => handleSubmit(ev, data));
-  createWindow();
-  createTray();
-  registerShortcut();
-  if (app.isPackaged) {
-    autoLaunch.isEnabled().then((isEnabled) => {
-      if (!isEnabled) autoLaunch.enable();
-    });
-  }
-});
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on("second-instance", () => {
+    if (mainWindow) {
+      if (!mainWindow.isVisible()) mainWindow.show();
+      mainWindow.focus();
+    }
+  });
+
+  app.whenReady().then(() => {
+    ipcMain.on("handle-submit", (ev, data) => handleSubmit(ev, data));
+    createWindow();
+    createTray();
+    registerShortcut();
+    if (app.isPackaged) {
+      autoLaunch.isEnabled().then((isEnabled) => {
+        if (!isEnabled) autoLaunch.enable();
+      });
+    }
+  });
+}
