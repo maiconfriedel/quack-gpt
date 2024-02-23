@@ -1,0 +1,16 @@
+/**
+ * @see https://www.electron.build/configuration/configuration
+ */
+{
+  $schema: "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  appId: "com.maiconfriedel.quack-gpt",
+  asar: true,
+  productName: "Quack GPT",
+  directories: {
+    output: "release/${version}",
+  },
+  files: ["dist", "dist-electron"],
+  win: {
+    icon: "/public/icon.png",
+  },
+}
