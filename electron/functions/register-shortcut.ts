@@ -1,6 +1,7 @@
-import { BrowserWindow, globalShortcut } from "electron";
+import { globalShortcut } from "electron";
+import { mainWindow } from "../main";
 
-export function registerShortcut(mainWindow: BrowserWindow) {
+export function registerShortcut() {
   globalShortcut.register("Alt+CommandOrControl+A+I", () => {
     mainWindow.show();
   });

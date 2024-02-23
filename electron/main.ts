@@ -15,14 +15,14 @@ process.env.VITE_PUBLIC = app.isPackaged
 
 export const iconPath = path.join(process.env.VITE_PUBLIC, "icon.png");
 
-let win: BrowserWindow;
+export let mainWindow: BrowserWindow;
 let tray: Tray;
 
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
 
 function createWindow() {
-  win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     icon: path.join(iconPath),
     height: 100,
     webPreferences: {
@@ -37,16 +37,16 @@ function createWindow() {
   });
 
   if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL);
+    mainWindow.loadURL(VITE_DEV_SERVER_URL);
   } else {
     // win.loadFile('dist/index.html')
-    win.loadFile(path.join(process.env.DIST, "index.html"));
+    mainWindow.loadFile(path.join(process.env.DIST, "index.html"));
   }
 
   // win.webContents.openDevTools();
 
-  win.webContents.on("before-input-event", (ev, input) =>
-    handleQuit(ev, input, win)
+  mainWindow.webContents.on("before-input-event", (ev, input) =>
+    handleQuit(ev, input)
   );
 }
 
@@ -54,18 +54,15 @@ function createTray() {
   tray = new Tray(iconPath);
   tray.setToolTip("Quack GPT is running! 🦆");
   tray.on("click", () => {
-    win.show();
+    mainWindow.show();
   });
-  tray.setContextMenu(buildTrayMenu(win));
+  tray.setContextMenu(buildTrayMenu());
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
-  // if (process.platform !== "darwin") {
-  //   app.quit();
-  // }
   createWindow();
 });
 
@@ -78,10 +75,10 @@ app.on("activate", () => {
 });
 
 app.whenReady().then(() => {
-  ipcMain.on("handle-submit", (ev, data) => handleSubmit(ev, data, win));
+  ipcMain.on("handle-submit", (ev, data) => handleSubmit(ev, data));
   createWindow();
   createTray();
-  registerShortcut(win);
+  registerShortcut();
   if (app.isPackaged) {
     autoLaunch.isEnabled().then((isEnabled) => {
       if (!isEnabled) autoLaunch.enable();

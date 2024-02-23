@@ -1,7 +1,7 @@
-import { BrowserWindow, Menu, app, dialog, nativeImage } from "electron";
-import { iconPath } from "../main";
+import { Menu, app, dialog, nativeImage } from "electron";
+import { iconPath, mainWindow } from "../main";
 
-export function buildTrayMenu(mainWindow: BrowserWindow) {
+export function buildTrayMenu() {
   return Menu.buildFromTemplate([
     {
       label: "Open Quack GPT",
