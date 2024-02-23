@@ -1,12 +1,12 @@
 import { app, BrowserWindow, ipcMain, Tray } from "electron";
 import path from "node:path";
 import {
+  autoLaunch,
   buildTrayMenu,
   handleQuit,
   handleSubmit,
   registerShortcut,
 } from "./functions";
-import { autoLaunch } from "./functions/auto-launch";
 
 process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = app.isPackaged
