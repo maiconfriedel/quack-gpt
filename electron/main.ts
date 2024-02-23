@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Tray } from "electron";
+import { BrowserWindow, Tray, app, ipcMain, screen } from "electron";
 import path from "node:path";
 import {
   autoLaunch,
@@ -34,8 +34,10 @@ function createWindow() {
     width: 600,
     frame: false,
     autoHideMenuBar: true,
-    resizable: true,
+    resizable: false,
     show: false,
+    x: (screen.getPrimaryDisplay().workAreaSize.width - 600) / 2,
+    y: 300,
   });
 
   if (VITE_DEV_SERVER_URL) {
