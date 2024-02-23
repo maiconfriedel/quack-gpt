@@ -36,13 +36,6 @@ function createWindow() {
     show: false,
   });
 
-  tray = new Tray(iconPath);
-  tray.setToolTip("Quack GPT is running! 🦆");
-  tray.on("click", () => {
-    win.show();
-  });
-  tray.setContextMenu(buildTrayMenu(win));
-
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
   } else {
@@ -57,13 +50,23 @@ function createWindow() {
   );
 }
 
+function createTray() {
+  tray = new Tray(iconPath);
+  tray.setToolTip("Quack GPT is running! 🦆");
+  tray.on("click", () => {
+    win.show();
+  });
+  tray.setContextMenu(buildTrayMenu(win));
+}
+
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  // if (process.platform !== "darwin") {
+  //   app.quit();
+  // }
+  createWindow();
 });
 
 app.on("activate", () => {
@@ -77,6 +80,7 @@ app.on("activate", () => {
 app.whenReady().then(() => {
   ipcMain.on("handle-submit", (ev, data) => handleSubmit(ev, data, win));
   createWindow();
+  createTray();
   registerShortcut(win);
   if (app.isPackaged) {
     autoLaunch.isEnabled().then((isEnabled) => {
