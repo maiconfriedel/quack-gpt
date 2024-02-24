@@ -1,2 +1,2 @@
 - [Home](/)
-- [Installation](installation.md)
+- [Installation and Usage](installation.md)
