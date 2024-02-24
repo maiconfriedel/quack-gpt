@@ -8,7 +8,7 @@ There will be a 🦆 icon in the tray indicating the app is running.
 
 ![tray](tray.png)
 
-Just click on it, or press `CTRL + ALT + I`, and it will open. Type the text you wanna ask to Chat GPT, press enter, and it will open in your default browser with that prompt.
+Just click on it, or press `CTRL + ALT + I`, and it will open. Type the text you wanna ask to Chat GPT, press `ENTER`, and it will open in your default browser with that prompt.
 
 You can press `ESC` to close the app back to tray, if you changed you mind.
 
@@ -16,6 +16,6 @@ You can press `ESC` to close the app back to tray, if you changed you mind.
 
 ## Start on boot
 
-Left clicking on the tray icon, you can setup the app to start on boot, just like the image below
+Left clicking on the tray icon, you can setup the app to start on boot.
 
 ![start on boot](start-on-boot.png)
