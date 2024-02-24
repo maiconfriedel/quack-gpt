@@ -2,6 +2,8 @@
 
 Quick search on Chat GPT by just pressing a shortcut.
 
+> Currently working just on Windows. Plans to support Linux and MacOS in the future.
+
 ![example](example.gif)
 
 ## Why "Quack" GPT? 🦆
